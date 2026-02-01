@@ -15,10 +15,10 @@ interface InteractiveModeProps {
 
 // --- CONFIGURATION ---
 // Toggle: true = Use Medical Book Cache, false = Use General LLM
-const USE_MEDICAL_BOOK = false; // Disabled - cache expired
+const USE_MEDICAL_BOOK = true; // Auto-enabled by workflow
 
 // Context Cache Name (created via create_cache.js) - Caches the 5MB file for 24hrs
-const CACHE_NAME = "cachedContents/48038ptzqepvdmzc5oox73s04ptqbrayiebl7rsd"; 
+const CACHE_NAME = "cachedContents/3lnctfmso6h38556kau94a3qzqbqhn1ur2jdbt1w"; 
 
 // --- RAG KNOWLEDGE BASE (Local Keywords for UI Feedback only) ---
 const MEDICAL_KNOWLEDGE_BASE = [
