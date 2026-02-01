@@ -1,0 +1,9 @@
+{
+  "name": "ResQ-AI Emergency Assistant",
+  "description": "A production-grade AI-powered emergency and health assistant featuring interactive guidance, skills training, and instant triage analysis.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
