@@ -2,11 +2,12 @@ import { GoogleGenAI } from "@google/genai";
 
 const API_KEY = process.env.GEMINI_API_KEY;
 
+const FILE_URI = process.env.FILE_URI || "https://generativelanguage.googleapis.com/v1beta/files/d3mfppb8plup";
+
 if (!API_KEY) {
   console.error("Error: GEMINI_API_KEY environment variable is required");
   process.exit(1);
 }
-const FILE_URI = "https://generativelanguage.googleapis.com/v1beta/files/d3mfppb8plup";
 
 async function createCache() {
   try {

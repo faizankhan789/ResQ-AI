@@ -2,8 +2,8 @@ name: Refresh Gemini Cache
 
 on:
   schedule:
-    # Runs every 5 minutes (Note: GitHub may delay runs during high load)
-    - cron: '*/5 * * * *'
+    # Runs every 2 minutes
+    - cron: '*/2 * * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
@@ -25,43 +25,68 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create new cache and update code
+      # Step 1: Upload book file to get FILE_URI
+      - name: Upload book file
+        id: upload
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BOOK_PATH: ./assets/Emergency_Medical_Guide.txt
         run: |
-          # Run cache creation script and capture output
+          node upload_single.js > upload_output.txt 2>&1
+          cat upload_output.txt
+
+          # Extract FILE_URI from output
+          FILE_URI=$(grep "File URI:" upload_output.txt | sed 's/File URI: //')
+
+          if [ -z "$FILE_URI" ]; then
+            echo "Failed to upload file"
+            exit 1
+          fi
+
+          echo "file_uri=$FILE_URI" >> $GITHUB_OUTPUT
+          echo "Uploaded file URI: $FILE_URI"
+
+      # Step 2: Create cache using FILE_URI
+      - name: Create cache
+        id: cache
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FILE_URI: ${{ steps.upload.outputs.file_uri }}
+        run: |
           node create_cache.js > cache_output.txt 2>&1
           cat cache_output.txt
 
-          # Extract cache name from output
+          # Extract CACHE_NAME from output
           CACHE_NAME=$(grep "Cache Name:" cache_output.txt | sed 's/Cache Name: //')
 
           if [ -z "$CACHE_NAME" ]; then
             echo "Failed to create cache"
-            cat cache_output.txt
             exit 1
           fi
 
+          echo "cache_name=$CACHE_NAME" >> $GITHUB_OUTPUT
           echo "New cache name: $CACHE_NAME"
 
-          # Update CACHE_NAME in InteractiveMode.tsx
+      # Step 3: Update InteractiveMode.tsx with new values
+      - name: Update code
+        run: |
+          CACHE_NAME="${{ steps.cache.outputs.cache_name }}"
+
+          # Update CACHE_NAME
           sed -i "s|const CACHE_NAME = \"cachedContents/[^\"]*\";|const CACHE_NAME = \"$CACHE_NAME\";|g" components/Modules/InteractiveMode.tsx
 
-          # Enable USE_MEDICAL_BOOK since cache is now fresh
+          # Enable USE_MEDICAL_BOOK
           sed -i "s|const USE_MEDICAL_BOOK = false;.*|const USE_MEDICAL_BOOK = true; // Auto-enabled by workflow|g" components/Modules/InteractiveMode.tsx
 
-          echo "Updated InteractiveMode.tsx with new cache"
+          echo "Updated InteractiveMode.tsx"
+          grep "CACHE_NAME" components/Modules/InteractiveMode.tsx
+          grep "USE_MEDICAL_BOOK" components/Modules/InteractiveMode.tsx
 
-      - name: Check for changes
-        id: git-check
-        run: |
-          git diff --quiet components/Modules/InteractiveMode.tsx || echo "changes=true" >> $GITHUB_OUTPUT
-
+      # Step 4: Commit and push
       - name: Commit and push changes
-        if: steps.git-check.outputs.changes == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add components/Modules/InteractiveMode.tsx
-          git commit -m "chore: refresh Gemini cache [automated]"
+          git diff --staged --quiet || git commit -m "chore: refresh Gemini cache [automated]"
           git push
