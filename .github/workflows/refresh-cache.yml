@@ -3,7 +3,7 @@ name: Refresh Gemini Cache
 on:
   schedule:
     # Runs every 2 minutes
-    - cron: '*/2 * * * *'
+    - cron: '0 * * * *'
   workflow_dispatch: # Allow manual trigger
 
 permissions:
