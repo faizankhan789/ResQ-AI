@@ -76,6 +76,18 @@ An AI-powered emergency response assistant that provides real-time guidance duri
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
 
+## GitHub Actions - Auto Cache Refresh
+
+The app uses Gemini cached content for the medical book (expires every 24 hours). A GitHub workflow automatically refreshes it.
+
+**Setup:**
+1. Go to your repo → Settings → Secrets and variables → Actions
+2. Add secret: `GEMINI_API_KEY` with your API key
+3. The workflow runs every 5 minutes and updates the cache automatically
+
+**Manual trigger:**
+Go to Actions → "Refresh Gemini Cache" → Run workflow
+
 ## API Rate Limits
 
 This app uses Google Gemini API which has rate limits:
