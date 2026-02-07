@@ -61,7 +61,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200">System Ready</h4>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Last diagnostic check completed 2 minutes ago. All sensors active.
-            AI Models loaded: 2.5 Flash, 3 Pro Preview.
+            AI Models loaded: Gemini 3 Flash.
           </p>
         </div>
       </div>

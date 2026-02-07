@@ -162,7 +162,7 @@ export const LearningMode: React.FC<LearningModeProps> = ({ onBack }) => {
 
       const ai = new GoogleGenAI({ apiKey });
       chatSessionRef.current = ai.chats.create({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3-flash-preview',
         config: {
           systemInstruction: `You are an Emergency Medical Training Instructor.
 
@@ -299,7 +299,7 @@ RESPONSE FORMAT:
 
       const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3-flash-preview',
         contents: `Generate 5 critical multiple-choice questions about ${SKILL_LABELS[category]}.
 
 Focus on:
@@ -413,7 +413,7 @@ FORMAT (JSON):
 
       const ai = new GoogleGenAI({ apiKey });
       chatSessionRef.current = ai.chats.create({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3-flash-preview',
         config: {
           systemInstruction: `You are acting as an EMERGENCY VICTIM in a medical simulation.
 

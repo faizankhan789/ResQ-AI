@@ -17,7 +17,7 @@ async function createCache() {
 
     // Create cached content
     const cache = await ai.caches.create({
-      model: "gemini-2.0-flash", // Faster flash model
+      model: "gemini-3-flash-preview", // Gemini 3 Flash model
       config: {
         contents: [
           {

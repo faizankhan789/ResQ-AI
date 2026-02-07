@@ -60,7 +60,7 @@ export const MedicalReportProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3-flash-preview',
         contents: `You are an automated medical scribe. Review this incident timeline and generate a Paramedic Handoff Report.
         
         TIMELINE:

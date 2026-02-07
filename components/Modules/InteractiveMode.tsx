@@ -366,7 +366,7 @@ Example responses: "Good. Keep that pressure." / "Move it left a bit." / "Lookin
 
       // Send with 15-second timeout using direct generateContent call
       const responsePromise = ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3-flash-preview',
         contents: contents
       });
       const timeoutPromise = new Promise((_, reject) =>
@@ -611,7 +611,7 @@ If CRITICAL: Start with ||CRITICAL_STATE||`;
       ];
 
       const responsePromise = ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3-flash-preview',
         contents: contents
       });
       const timeoutPromise = new Promise((_, reject) =>
@@ -793,7 +793,7 @@ MAXIMUM 15 WORDS. Example: "Is the bleeding slowing? Keep that pressure firm."`;
       ];
 
       const responsePromise = ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-3-flash-preview',
         contents: contents
       });
       const timeoutPromise = new Promise((_, reject) =>
@@ -1054,7 +1054,7 @@ Remember: This is a conversation. One step, wait for response, then next step.`;
 
         try {
           chatSessionRef.current = ai.chats.create({
-            model: 'gemini-2.0-flash',
+            model: 'gemini-3-flash-preview',
             config: USE_MEDICAL_BOOK
               ? { cachedContent: CACHE_NAME }
               : { systemInstruction: GENERAL_SYSTEM_INSTRUCTION },
@@ -1087,7 +1087,7 @@ Remember: This is a conversation. One step, wait for response, then next step.`;
 
           // Fallback: Create chat without cache if cache expired or invalid
           chatSessionRef.current = ai.chats.create({
-            model: 'gemini-2.0-flash',
+            model: 'gemini-3-flash-preview',
             config: {
               systemInstruction: `You are Dr. ResQ, an emergency medical assistant on a voice call.
 
@@ -2355,7 +2355,7 @@ Example response: "I see a burn on your hand. First, let's cool it - run cold wa
                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">Protocol: {uploadedPdf.name} <button onClick={clearPdf} className="ml-1 hover:text-red-500"><Icons.Close size={12} /></button></span>
              ) : ( isMicActive ? "Hands-free voice mode active" : "Tap icons for options" )}
              <div className="hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-200 dark:border-blue-800/30 ml-2">
-                <Icons.AI size={10} className="text-blue-500" /> <span className="text-[9px] font-bold text-blue-600 dark:text-blue-400">Gemini 2.0 Flash (Cached)</span>
+                <Icons.AI size={10} className="text-blue-500" /> <span className="text-[9px] font-bold text-blue-600 dark:text-blue-400">Gemini 3 Flash (Cached)</span>
              </div>
           </div>
         </div>
